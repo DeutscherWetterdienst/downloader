@@ -1,0 +1,66 @@
+[
+    {
+        "model": "cosmo-d2",
+        "scope": "germany",
+        "intervalHours": 3,
+        "grids": ["regular-lat-lon", "rotated-lat-lon"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_{param!U}.grib2.bz2" },
+        "openDataDeliveryOffsetMinutes": 90
+    },
+    {
+        "model": "cosmo-d2-eps",
+        "scope": "germany",
+        "intervalHours": 3,
+        "grids": ["rotated-lat-lon"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_{param!L}.grib2.bz2" },
+        "openDataDeliveryOffsetMinutes": 120
+    },
+    {
+        "model": "icon",
+        "scope": "global",
+        "intervalHours": 6,
+        "grids": ["icosahedral"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_{param!U}.grib2.bz2" },
+        "openDataDeliveryOffsetMinutes": 240
+    },
+    {
+        "model": "icon-eps",
+        "scope": "global",
+        "intervalHours": 6,
+        "grids": ["icosahedral"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_{param!L}.grib2.bz2" },
+        "openDataDeliveryOffsetMinutes": 300
+    },
+    {
+        "model": "icon-eu",
+        "scope": "europe",
+        "intervalHours": 3,
+        "grids": ["regular-lat-lon"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_{param!U}.grib2.bz2"},
+        "openDataDeliveryOffsetMinutes": 240
+    },
+    {
+        "model": "icon-eu-eps",
+        "scope": "europe",
+        "intervalHours": 6,
+        "grids": ["icosahedral"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_{param!L}.grib2.bz2" },
+        "openDataDeliveryOffsetMinutes": 240
+    },
+    {
+        "model": "icon-d2",
+        "scope": "germany",
+        "intervalHours": 12,
+        "grids": ["icosahedral", "regular-lat-lon"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_2d_{param!L}.grib2.bz2" },
+        "openDataDeliveryOffsetMinutes": 90
+    },
+    {
+        "model": "icon-d2-eps",
+        "scope": "germany",
+        "intervalHours": 12,
+        "grids": ["icosahedral"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_2d_{param!L}.grib2.bz2" },
+        "openDataDeliveryOffsetMinutes": 90
+    }
+]

@@ -1,0 +1,4 @@
+.vscode*
+*.grib2
+*.pyc
+Makefile
