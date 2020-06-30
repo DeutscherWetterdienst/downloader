@@ -1,0 +1,13 @@
+#!/bin/bash
+# This file adds the default "push" phase of
+# docker autobuild.
+#
+# Advanced options for Autobuild and Autotest
+# see https://docs.docker.com/docker-hub/builds/advanced/
+#
+# load environment variables from env file
+. "$(dirname $0)/env"
+
+# push basic minimal image with latest tag and version tag
+docker push ${IMAGE_NAME_LATEST}
+docker push ${IMAGE_NAME}

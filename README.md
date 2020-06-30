@@ -1,5 +1,5 @@
 # DWD Open Data Downloader
-A simple python package to download NWP data from DWD's Open Data File Server https://opendata.dwd.de.
+A simple python module and command line tool to download NWP GRIB2 data from DWD's Open Data File Server https://opendata.dwd.de.
 
 
 # Usage

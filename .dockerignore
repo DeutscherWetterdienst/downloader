@@ -2,3 +2,4 @@
 *.grib2
 *.pyc
 Makefile
+hooks
