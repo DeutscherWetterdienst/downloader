@@ -126,9 +126,12 @@ def downloadAndExtractBz2FileFromUrl( url , destFilePath=None, destFileName=None
 def getGribFileUrl(model="icon-eu", grid=None, param="t_2m", timestep=0, timestamp=getMostRecentTimestamp(waitTimeMinutes=180, modelIntervalHours=12)):
     cfg = available["models"][model]
     levtype = "single-level"
-    grid = "regular-lat-lon"
-    if (grid is None) or (grid not in cfg["grids"]):
+    if grid is None:
+        log.warn("No grid specified. Trying to use default.")
         grid = cfg["grids"][0]
+        log.warn("Grid type '{}' selected".format(grid))
+    elif grid not in cfg["grids"]:
+        log.warn("Unknown grid type '{}' for model '{}'.".format(grid,model))
     url = cfg["pattern"]["single-level"]
     # pattern is something like this:
     #  "https://opendata.dwd.de/weather/nwp/{model!l}/grib/{modelrun:>02d}/{param!l}/{model!l}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_{param!u}.grib2.bz2"
@@ -144,7 +147,7 @@ def getGribFileUrl(model="icon-eu", grid=None, param="t_2m", timestep=0, timesta
         step = timestep)
 
 def downloadGribData( model="icon-eu", grid=None, param="t_2m", timestep=0, timestamp=getMostRecentTimestamp(), destFilePath=None, destFileName=None ):
-    dataUrl=getGribFileUrl(model=model, grid=None, param=param, timestep=timestep, timestamp=timestamp)#
+    dataUrl=getGribFileUrl(model=model, grid=grid, param=param, timestep=timestep, timestamp=timestamp)#
 
     downloadAndExtractBz2FileFromUrl(dataUrl, destFilePath=destFilePath, destFileName=destFileName)
 
@@ -157,7 +160,7 @@ def downloadGribDataSequence(model:str, grid:str=None, param:str="t_2m", minTime
     #download data from open data server for the next x steps
     for timestep in range(minTimeStep, maxTimeStep+1):
         for field in fields:
-            downloadGribData(model=model, grid=None, param=field, timestep=timestep, timestamp=timestamp, destFilePath=destFilePath)
+            downloadGribData(model=model, grid=grid, param=field, timestep=timestep, timestamp=timestamp, destFilePath=destFilePath)
 
 def formatDateIso8601(date):
     return date.replace(microsecond=0,tzinfo=timezone.utc).isoformat()
