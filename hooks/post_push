@@ -8,6 +8,10 @@
 # load environment variables from env file
 . "$(dirname $0)/env"
 
-# push basic minimal image with latest tag and version tag
+# push image with latest tag
 docker push ${IMAGE_NAME_LATEST}
-docker push ${IMAGE_NAME}
+
+# push image with version suffix if necessary
+if [[ "$DOCKER_TAG" != "latest" ]]; then
+	docker tag ${IMAGE_NAME}
+fi

@@ -31,5 +31,9 @@ docker build \
 		--build-arg VERSION=${DOCKER_TAG} \
 		--file ${DOCKERFILE_PATH} \
 		--tag ${IMAGE_NAME_LATEST} \
-		--tag ${IMAGE_NAME} \
 		.
+
+# tag with version suffix if necessary
+if [[ "$DOCKER_TAG" != "latest" ]]; then
+	docker tag ${IMAGE_NAME_LATEST} ${IMAGE_NAME}
+fi
