@@ -1,3 +1,7 @@
+[![Python version](https://img.shields.io/badge/python-3.7.7-informational)](https://hub.docker.com/_/python)
+[![Docker Build Status](https://img.shields.io/docker/cloud/build/deutscherwetterdienst/downloader.svg)](https://hub.docker.com/r/deutscherwetterdienst/downloader)
+[![Docker Pulls](https://img.shields.io/docker/pulls/deutscherwetterdienst/downloader)](https://hub.docker.com/r/deutscherwetterdienst/downloader)
+
 # DWD Open Data Downloader
 A simple python module and command line tool to download NWP GRIB2 data from DWD's Open Data File Server https://opendata.dwd.de.
 
