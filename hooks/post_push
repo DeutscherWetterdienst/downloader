@@ -13,5 +13,5 @@ docker push ${IMAGE_NAME_LATEST}
 
 # push image with version suffix if necessary
 if [[ "$DOCKER_TAG" != "latest" ]]; then
-	docker tag ${IMAGE_NAME}
+	docker push ${IMAGE_NAME}
 fi
