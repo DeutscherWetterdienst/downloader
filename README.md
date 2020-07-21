@@ -52,29 +52,35 @@ Options:
 ```
 
 ## Download data
-You can download some custom data by running:
+You can download some custom data into the directory you're currently in by running:
 ```bash
-docker run --rm deutscherwetterdienst/downloader downloader --model icon-eu --single-level-fields t_2m --max-time-step 5 --directory /
+docker run --rm \
+  --volume $(pwd):/mydata \
+  deutscherwetterdienst/downloader downloader \
+    --model icon-eu \
+    --single-level-fields t_2m \
+    --max-time-step 5 \
+    --directory /mydata
 ```
 You should see verbose output like this:
 ```
-[downloader_cli.py:249 -             download() ] 
+[downloader_cli.py:252 -             download() ] 
 ---------------
 Model: icon-eu
 Grid: regular-lat-lon
 Fields: t_2m
 Minimum time step: 0
 Maximum time step: 5
-Timestamp: 2020-06-30
-Model run: 12
-Destination: /
+Timestamp: 2020-07-21
+Model run: 09
+Destination: /mydata
 ---------------
 
-[downloader_cli.py:108 - downloadAndExtractBz2FileFromUrl() ] downloading file: 'https://opendata.dwd.de/weather/nwp/icon-eu/grib/12/t_2m/icon-eu_europe_regular-lat-lon_single-level_2020063012_000_T_2M.grib2.bz2'
-[downloader_cli.py:121 - downloadAndExtractBz2FileFromUrl() ] saving file as: '/icon-eu_europe_regular-lat-lon_single-level_2020063012_000_T_2M.grib2'
+[downloader_cli.py:108 - downloadAndExtractBz2FileFromUrl() ] downloading file: 'https://opendata.dwd.de/weather/nwp/icon-eu/grib/09/t_2m/icon-eu_europe_regular-lat-lon_single-level_2020072109_000_T_2M.grib2.bz2'
+[downloader_cli.py:121 - downloadAndExtractBz2FileFromUrl() ] saving file as: '/mydata/icon-eu_europe_regular-lat-lon_single-level_2020072109_000_T_2M.grib2'
 [downloader_cli.py:124 - downloadAndExtractBz2FileFromUrl() ] Done.
-[downloader_cli.py:108 - downloadAndExtractBz2FileFromUrl() ] downloading file: 'https://opendata.dwd.de/weather/nwp/icon-eu/grib/12/t_2m/icon-eu_europe_regular-lat-lon_single-level_2020063012_001_T_2M.grib2.bz2'
-[downloader_cli.py:121 - downloadAndExtractBz2FileFromUrl() ] saving file as: '/icon-eu_europe_regular-lat-lon_single-level_2020063012_001_T_2M.grib2'
+[downloader_cli.py:108 - downloadAndExtractBz2FileFromUrl() ] downloading file: 'https://opendata.dwd.de/weather/nwp/icon-eu/grib/09/t_2m/icon-eu_europe_regular-lat-lon_single-level_2020072109_001_T_2M.grib2.bz2'
+[downloader_cli.py:121 - downloadAndExtractBz2FileFromUrl() ] saving file as: '/mydata/icon-eu_europe_regular-lat-lon_single-level_2020072109_001_T_2M.grib2'
 [downloader_cli.py:124 - downloadAndExtractBz2FileFromUrl() ] Done.
 ...
 ```
