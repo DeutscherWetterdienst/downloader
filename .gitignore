@@ -1,3 +1,4 @@
 *.grib2
 *.pyc
 __pycache__
+/.idea/
