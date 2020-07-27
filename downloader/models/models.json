@@ -53,7 +53,7 @@
         "intervalHours": 12,
         "grids": ["icosahedral", "regular-lat-lon"],
         "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_2d_{param!L}.grib2.bz2" },
-        "openDataDeliveryOffsetMinutes": 360
+        "openDataDeliveryOffsetMinutes": 540
     },
     {
         "model": "icon-d2-eps",
@@ -61,6 +61,6 @@
         "intervalHours": 12,
         "grids": ["icosahedral"],
         "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_2d_{param!L}.grib2.bz2" },
-        "openDataDeliveryOffsetMinutes": 360
+        "openDataDeliveryOffsetMinutes": 540
     }
 ]
