@@ -7,23 +7,21 @@
     Eduard Rosert
  Version history:
     0.1, 2020-06-26, initial version
+    0.2, 2021-07-13, added optional --time-step-interval parameter
 """
 
-import click
-import sys
-import csv
-import urllib.request
 import bz2
+import click
 import json
 import math
 import os
+import urllib.request
 from datetime import datetime, timedelta, timezone
 
-from .version import __version__
 from . import logger as log
 # custom stringFormatter with uppercase/lowercase functionality
 from .formatter import ExtendedFormatter
-
+from .version import __version__
 
 try:
     import importlib.resources as pkg_resources
@@ -152,13 +150,13 @@ def downloadGribData( model="icon-eu", grid=None, param="t_2m", timestep=0, time
     downloadAndExtractBz2FileFromUrl(dataUrl, destFilePath=destFilePath, destFileName=destFileName)
 
 
-def downloadGribDataSequence(model:str, grid:str=None, param:str="t_2m", minTimeStep:int=0, maxTimeStep:int=12, timestamp:datetime=None, destFilePath=None ):
+def downloadGribDataSequence(model:str, grid:str=None, param:str="t_2m", minTimeStep:int=0, maxTimeStep:int=12, timeStepInterval:int=1, timestamp:datetime=None, destFilePath=None ):
     fields = [p.strip() for p in param.split(',')]
     #get latest timestamp if necessary
     if timestamp is None: 
         timestamp = getMostRecentModelTimestamp( model=model )
     #download data from open data server for the next x steps
-    for timestep in range(minTimeStep, maxTimeStep+1):
+    for timestep in range(minTimeStep, maxTimeStep+1, timeStepInterval):
         for field in fields:
             downloadGribData(model=model, grid=grid, param=field, timestep=timestep, timestamp=timestamp, destFilePath=destFilePath)
 
@@ -196,6 +194,11 @@ def getTimestampString(date):
     help="the maximung forecast time step to download, e.g. 12 will download time steps from min-time-step - 12 (default=0)",
     required=False, 
     default=0 )
+@click.option("--time-step-interval",
+    type=click.INT,
+    help="the interval (in hours) between forecast time steps to download. (Default=1)",
+    required=False,
+    default=1 )
 @click.option("--timestamp",
     type=click.DateTime(),
     help="the time stamp of the dataset, e.g. '2020-06-26 18:00'. Uses latest available if no timestamp is specified.",
@@ -218,7 +221,7 @@ def getTimestampString(date):
 #     }, ...]""",
 #     required=False,
 #     default=None)
-def download(model:str, grid:str, single_level_fields:str, min_time_step:int, max_time_step:int, timestamp:datetime, directory:str, model_file:str=None):
+def download(model:str, grid:str, single_level_fields:str, min_time_step:int, max_time_step:int, time_step_interval:int, timestamp:datetime, directory:str, model_file:str=None):
     if model_file is not None:
         print("loading model file from {}".format(model_file))
         loadAvailable(filename=model_file)
@@ -237,6 +240,7 @@ Grid: {grid}
 Fields: {param}
 Minimum time step: {minTimeStep}
 Maximum time step: {maxTimeStep}
+Time step interval: {timeStepInterval}
 Timestamp: {timestamp:%Y-%m-%d}
 Model run: {modelrun:>02d}
 Destination: {destFilePath}
@@ -246,7 +250,8 @@ Destination: {destFilePath}
         grid=grid, 
         param=single_level_fields, 
         minTimeStep=min_time_step, 
-        maxTimeStep=max_time_step, 
+        maxTimeStep=max_time_step,
+        timeStepInterval=time_step_interval,
         timestamp=timestamp,
         modelrun=timestamp.hour, 
         destFilePath=directory ))
@@ -255,7 +260,8 @@ Destination: {destFilePath}
         grid=grid, 
         param=single_level_fields, 
         minTimeStep=min_time_step, 
-        maxTimeStep=max_time_step, 
+        maxTimeStep=max_time_step,
+        timeStepInterval=time_step_interval,
         timestamp=timestamp, 
         destFilePath=directory )
 

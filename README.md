@@ -19,7 +19,7 @@ docker run --rm deutscherwetterdienst/downloader
 ```
 Output:
 ```
-Usage: downloader [OPTIONS]
+Usage: downloader_cli.py [OPTIONS]
 
   Downloads NWP model data in GRIB2 format from DWD's Open Data file server
   https://opendata.dwd.de using HTTPS.
@@ -32,22 +32,19 @@ Options:
   --single-level-fields TEXT      one or more single-level model fields that
                                   should be donwloaded, e.g.
                                   t_2m,tmax_2m,clch,pmsl, ...  [required]
-
   --min-time-step INTEGER         the minimum forecast time step to download
                                   (default=0)
-
   --max-time-step INTEGER         the maximung forecast time step to download,
                                   e.g. 12 will download time steps from min-
                                   time-step - 12 (default=0)
-
+  --time-step-interval INTEGER    the interval (in hours) between forecast
+                                  time steps to download. (Default=1)
   --timestamp [%Y-%m-%d|%Y-%m-%dT%H:%M:%S|%Y-%m-%d %H:%M:%S]
                                   the time stamp of the dataset, e.g.
                                   '2020-06-26 18:00'. Uses latest available if
                                   no timestamp is specified.
-
   --directory DIRECTORY           the download directory, defaults to working
                                   directory
-
   --help                          Show this message and exit.
 ```
 
