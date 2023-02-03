@@ -15,6 +15,7 @@ import click
 import json
 import math
 import os
+import pathlib
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
@@ -117,7 +118,7 @@ def downloadAndExtractBz2FileFromUrl( url , destFilePath=None, destFileName=None
     binaryData = bz2.decompress(compressedData)
     fullFilePath = os.path.join(destFilePath, destFileName)
     log.info("saving file as: '{0}'".format(fullFilePath))
-    with open(fullFilePath, 'wb') as outfile:
+    with open(fullFilePath, 'ab') as outfile:
         outfile.write(binaryData)
     log.info("Done.")
 
@@ -150,7 +151,9 @@ def downloadGribData( model="icon-eu", grid=None, param="t_2m", timestep=0, time
     downloadAndExtractBz2FileFromUrl(dataUrl, destFilePath=destFilePath, destFileName=destFileName)
 
 
-def downloadGribDataSequence(model:str, grid:str=None, param:str="t_2m", minTimeStep:int=0, maxTimeStep:int=12, timeStepInterval:int=1, timestamp:datetime=None, destFilePath=None ):
+def downloadGribDataSequence(model:str, grid:str=None, param:str="t_2m", minTimeStep:int=0, maxTimeStep:int=12, timeStepInterval:int=1, timestamp:datetime=None, destFilePath=None, destFileName=None ):
+    if destFileName:
+        pathlib.Path(os.path.join(destFilePath, destFileName)).unlink(missing_ok=True)
     fields = [p.strip() for p in param.split(',')]
     #get latest timestamp if necessary
     if timestamp is None: 
@@ -158,7 +161,7 @@ def downloadGribDataSequence(model:str, grid:str=None, param:str="t_2m", minTime
     #download data from open data server for the next x steps
     for timestep in range(minTimeStep, maxTimeStep+1, timeStepInterval):
         for field in fields:
-            downloadGribData(model=model, grid=grid, param=field, timestep=timestep, timestamp=timestamp, destFilePath=destFilePath)
+            downloadGribData(model=model, grid=grid, param=field, timestep=timestep, timestamp=timestamp, destFilePath=destFilePath, destFileName=destFileName)
 
 def formatDateIso8601(date):
     return date.replace(microsecond=0,tzinfo=timezone.utc).isoformat()
@@ -209,6 +212,11 @@ def getTimestampString(date):
     help="the download directory, defaults to working directory",
     required=False, 
     default=os.getcwd() )
+@click.option("--output-file",
+    type=click.Path(writable=True,file_okay=True,dir_okay=False),
+    help="output file. If specified, downloads are merged to this file. If omitted, downloads are saved to individual files.",
+    required=False,
+    default=None )
 # @click.option("--model-file",
 #     type=click.Path(readable=True,exists=True,file_okay=True,dir_okay=False),
 #     help="""the path to model definition file in json format: [{
@@ -221,7 +229,7 @@ def getTimestampString(date):
 #     }, ...]""",
 #     required=False,
 #     default=None)
-def download(model:str, grid:str, single_level_fields:str, min_time_step:int, max_time_step:int, time_step_interval:int, timestamp:datetime, directory:str, model_file:str=None):
+def download(model:str, grid:str, single_level_fields:str, min_time_step:int, max_time_step:int, time_step_interval:int, timestamp:datetime, directory:str, output_file:str, model_file:str=None):
     if model_file is not None:
         print("loading model file from {}".format(model_file))
         loadAvailable(filename=model_file)
@@ -253,8 +261,8 @@ Destination: {destFilePath}
         maxTimeStep=max_time_step,
         timeStepInterval=time_step_interval,
         timestamp=timestamp,
-        modelrun=timestamp.hour, 
-        destFilePath=directory ))
+        modelrun=timestamp.hour,
+        destFilePath=os.path.join(directory, output_file or "") ))
     downloadGribDataSequence(
         model=model, 
         grid=grid, 
@@ -262,8 +270,9 @@ Destination: {destFilePath}
         minTimeStep=min_time_step, 
         maxTimeStep=max_time_step,
         timeStepInterval=time_step_interval,
-        timestamp=timestamp, 
-        destFilePath=directory )
+        timestamp=timestamp,
+        destFilePath=directory,
+        destFileName=output_file )
 
 if __name__ == "__main__":
     download()
