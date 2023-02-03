@@ -62,5 +62,29 @@
         "grids": ["icosahedral"],
         "pattern": {"single-level": "https://opendata.dwd.de/weather/nwp/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!L}_{scope}_{grid}_{levtype}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}_2d_{param!L}.grib2.bz2" },
         "openDataDeliveryOffsetMinutes": 540
+    },
+    {
+        "model": "gwam",
+        "scope": "global",
+        "intervalHours": 12,
+        "grids": ["regular-lat-lon"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/maritime/wave_models/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!U}_{param!U}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}.grib2.bz2"},
+        "openDataDeliveryOffsetMinutes": 300
+    },
+    {
+        "model": "ewam",
+        "scope": "europe",
+        "intervalHours": 12,
+        "grids": ["regular-lat-lon"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/maritime/wave_models/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!U}_{param!U}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}.grib2.bz2"},
+        "openDataDeliveryOffsetMinutes": 300
+    },
+    {
+        "model": "cwam",
+        "scope": "germany",
+        "intervalHours": 12,
+        "grids": ["regular-lat-lon"],
+        "pattern": {"single-level": "https://opendata.dwd.de/weather/maritime/wave_models/{model!L}/grib/{modelrun:>02d}/{param!L}/{model!U}_{param!U}_{timestamp:%Y%m%d}{modelrun:>02d}_{step:>03d}.grib2.bz2"},
+        "openDataDeliveryOffsetMinutes": 300
     }
 ]
